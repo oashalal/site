@@ -12,6 +12,10 @@ target/
 .settings
 .springBeans
 .sts4-cache
+.project
+.classpath
+.factorypath
+/.settings
 
 ### IntelliJ IDEA ###
 .idea
