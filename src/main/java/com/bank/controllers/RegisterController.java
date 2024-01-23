@@ -33,12 +33,12 @@ public class RegisterController {
     
     @PostMapping("/register")
     public String registration(@Valid @ModelAttribute("user") User user,
-                               BindingResult bindingResult) {
+                               BindingResult bindingResult, Model model) {
         if(!bindingResult.hasErrors() && !userService.existsUser(user.getUsername())) {
             userService.addUser(user.getUsername(), user.getPassword());
             return "redirect:/login";                           
-        }else{
-            return "redirect:/register?error";
+        }else {
+            return "register";
         }                       
     }
 }
