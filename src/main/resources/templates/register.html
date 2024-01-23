@@ -14,10 +14,7 @@
         }
         #error {
             color: #FF5D5C;
-            margin-left: 10;
-        }
-        p {
-            margin-top: 15px;
+            font-size: 14px;
         }
         h1 {
             margin-top: 15px;
@@ -32,25 +29,24 @@
             <p id="error">
                 Неверные данные или пользователь уже существует.
             </p>
-            <!-- Username input -->
         </div>
 
-        <div id="error" th:if="${#fields.hasErrors('username')}"
-            th:errors="*{username}">
-        </div>
-
-        <div id="error" th:if="${#fields.hasErrors('password')}"
-            th:errors="*{password}">
-        </div>
-        
         <div class="form-outline mb-13 container">
             <label class="form-label ml-10 text-center" for="username">Username:</label>
+            <span id="error" th:if="${#fields.hasErrors('username')}"
+                th:errors="*{username}">
+                Username error
+            </span>
             <input type="text" th:field="*{username}" class="form-control" />
         </div>
 
         <!-- Password input -->
         <div class="form-outline mb-13 container">
             <label class="form-label" for="password">Password:</label>
+            <span id="error" th:if="${#fields.hasErrors('password')}"
+                th:errors="*{password}">
+                Password error
+            </span>
             <input type="password" th:field="*{password}" class="form-control" />
         </div>
 
@@ -60,11 +56,10 @@
 
         <!-- Register buttons -->
         <div class="text-center">
-            <p>
+            <p style="margin-top: 15px;">
                 Уже есть аккаунт? <a href="/login">Войти</a>
             </p>
         </div>
-    </div>
-</form>
+    </form>
 </body>
 </html>
