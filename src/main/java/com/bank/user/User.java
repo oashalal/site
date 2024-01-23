@@ -5,7 +5,7 @@ import lombok.Data;
 import com.bank.card.Card;
 import java.util.List;
 import java.util.ArrayList;
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 @Data
 @Table(name="USERS")
