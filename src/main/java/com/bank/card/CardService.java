@@ -23,7 +23,7 @@ public class CardService {
     }
     
     public List<Card> getUserCards(String username){
-        User user = userService.get(username).get();
+        User user = userService.getUser(username);
         return cardRepository.findByUser(user);
     }
 }
