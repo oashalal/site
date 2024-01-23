@@ -17,7 +17,7 @@
     <h1 id="inline">Ваши карты: </h1>
     <a id="inline" style="margin-left: 220px; margin-top: -100px;" class="btn btn-primary" href="/addcard" role="button">Добавить</a><br></br>
     
-    <div onclick="window.location.href='[[|/card/${card.id}|]]';"
+    <div th:onclick="window.location.href='[[|/card/${card.id}|]]';"
          th:each="card : ${cards}" 
          class="alert alert-info mt-20">
         <h1 th:text="${card.name}"/>
