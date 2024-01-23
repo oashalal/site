@@ -11,4 +11,5 @@ import com.bank.user.User;
 public interface CardRepository extends JpaRepository<Card, Long> {
     Card findByNumber(int number);
     List<Card> findByUser(User user);
+    boolean existsByNumber(int number);
 }

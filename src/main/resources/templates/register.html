@@ -9,7 +9,7 @@
         #sign-in {
             height: 39px;
             width: 230px;
-            margin-top: 10px;
+            margin-top: 15px;
             font-size: 18px;
         }
         #error {
@@ -17,7 +17,7 @@
             margin-left: 10;
         }
         p {
-            margin-top: 10;
+            margin-top: 15px;
         }
         h1 {
             margin-top: 15px;
@@ -26,30 +26,34 @@
 </head>
 <body>
     <header th:insert="~{header :: header}"></header>
-    <form th:action="@{/register}" method="post">
+    <form th:object="${user}" th:action="@{/register}" method="post">
         <h1 class="text-center">Регистрация</h1>
         <div th:if="${param.error}">
             <p id="error">
-                Неверные данные!
+                Неверные данные или пользователь уже существует.
             </p>
             <!-- Username input -->
         </div>
+
+        <div id="error" th:if="${#fields.hasErrors('username')}"
+            th:errors="*{username}">
+        </div>
+
+        <div id="error" th:if="${#fields.hasErrors('password')}"
+            th:errors="*{password}">
+        </div>
+        
         <div class="form-outline mb-13 container">
             <label class="form-label ml-10 text-center" for="username">Username:</label>
-            <input type="text" id="username" name="username" class="form-control" />
+            <input type="text" th:field="*{username}" class="form-control" />
         </div>
 
         <!-- Password input -->
         <div class="form-outline mb-13 container">
             <label class="form-label" for="password">Password:</label>
-            <input type="password" id="password" name="password" class="form-control" />
+            <input type="password" th:field="*{password}" class="form-control" />
         </div>
-        <!-- Password2 input -->
-        <div class="form-outline mb-13 container">
-            <label class="form-label" for="password2">Repeat your password:</label>
-            <input type="password" id="password2" name="password2" class="form-control" />
-        </div>
-        <!-- Submit button -->
+
         <div class="text-center">
             <button id="sign-in" type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
         </div>

@@ -19,24 +19,32 @@ public class UserService{
     private CardRepository cardRepository;
     
     public void addUser(String username, String password){
-        User user = new User(username, password);
-        userRepository.save(user);
-    }
-    
-    public boolean hasUser(String username){
-        Optional<User> user = userRepository.findByUsername(username);
-        if(user.isPresent()) {
-            return true;
+        if(!existsUser(username)){
+            User user = new User(username, password);
+            userRepository.save(user);
         }
-        return false;
     }
     
-    public void addCard(String username, int cardNumber, String name){
-        User user = userRepository.findByUsername(username).get();
-        Card card = new Card(0d, cardNumber, name);
-        card.setUser(user);
-        user.getCards().add(card);
-        userRepository.save(user);
-        cardRepository.save(card);
+    public boolean existsUser(String username){
+        return userRepository.existsByUsername(username);
+    }
+    
+    public boolean addCard(String username, int cardNumber, String name){
+        User user = getUser(username);
+        if (user != null){
+            Card card = new Card(0d, cardNumber, name);
+            card.setUser(user);
+            user.getCards().add(card);
+            userRepository.save(user);
+            cardRepository.save(card);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public User getUser(String username){
+        Optional<User> user = userRepository.findByUsername(username);
+        return user.isPresent()? user.get() : null;
     }
 }

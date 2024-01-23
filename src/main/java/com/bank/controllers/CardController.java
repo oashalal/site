@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.bank.user.UserService;
+import com.bank.card.CardService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -15,6 +16,9 @@ public class CardController {
     
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CardService cardService;
 
     @GetMapping("/addcard")
     public String addCard(Model model) {
@@ -31,7 +35,7 @@ public class CardController {
         } catch(Exception ec){
             return "redirect:/addcard?error";
         }
-        if (num >= 1000 && num <=9999){
+        if (num >= 1000 && num <=9999 && !cardService.existsCard(num)){
             userService.addCard(userDetails.getUsername(), num, name);
         }
         else return "redirect:/addcard?error";

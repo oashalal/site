@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bank.user.*;
 import java.util.Optional;
 import java.util.List;
+import com.bank.card.*;
 
 @Service
 public class CardService {
@@ -15,18 +16,14 @@ public class CardService {
     private CardRepository cardRepository;
     
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
     
-    public boolean hasCard(int number){
-        Card card = cardRepository.findByNumber(number);
-        if (card != null){
-            return true;
-        }
-        return false;
+    public boolean existsCard(int number){
+        return cardRepository.existsByNumber(number);
     }
     
     public List<Card> getUserCards(String username){
-        User user = userRepository.findByUsername(username).get();
+        User user = userService.get(username).get();
         return cardRepository.findByUser(user);
     }
 }
