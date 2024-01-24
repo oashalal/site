@@ -39,7 +39,7 @@ public class RegisterController {
             return "register";
         } else {
             userService.addUser(user.getUsername(), user.getPassword());
-            return "redirect:/login"
+            return "redirect:/login";
         }                      
     }
 }
