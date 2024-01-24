@@ -16,7 +16,7 @@ import com.bank.card.CardService;
 import jakarta.validation.Valid;
 
 @Controller
-public class RegisterController {
+public class RegistrationController {
     
     @Autowired
     private CardService cardService;

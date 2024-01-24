@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Optional;
 import java.util.ArrayList;
@@ -21,9 +22,12 @@ public class UserService implements UserDetailsService{
     @Autowired
     private CardRepository cardRepository;
     
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+    
     public void addUser(String username, String password){
         if(!existsUser(username)){
-            User user = new User(username, password);
+            User user = new User(username, passwordEncoder.encode(password));
             userRepository.save(user);
         }
     }
