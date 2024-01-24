@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -34,11 +33,13 @@ public class RegisterController {
     @PostMapping("/register")
     public String registration(@Valid @ModelAttribute("user") User user,
                                BindingResult bindingResult, Model model) {
-        if(!bindingResult.hasErrors() && !userService.existsUser(user.getUsername())) {
-            userService.addUser(user.getUsername(), user.getPassword());
-            return "redirect:/login";                           
-        }else {
+        if(userService.existsUser(user.getUsername())) {
+            return "redirect:/register?error";                           
+        }else if(bindingResult.hasErrors()){
             return "register";
-        }                       
+        } else {
+            userService.addUser(user.getUsername(), user.getPassword());
+            return "redirect:/login"
+        }                      
     }
 }

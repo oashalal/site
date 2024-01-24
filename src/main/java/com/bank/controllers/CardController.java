@@ -7,9 +7,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.bank.user.UserService;
-import com.bank.card.CardService;
+import com.bank.card*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 public class CardController {
@@ -22,23 +26,20 @@ public class CardController {
 
     @GetMapping("/addcard")
     public String addCard(Model model) {
+        model.addAttribute("card", new Card());
         return "add-card";
     }
     
     @PostMapping("/addcard")
-    public String postAddCard(@AuthenticationPrincipal UserDetails userDetails,
-            @RequestParam String name,
-            @RequestParam String number, Model model){
-        int num;
-        try{
-            num = Integer.parseInt(number);
-        } catch(Exception ec){
+    public String postAddCard(@AuthenticationPrincipal UserDetails userDetails, 
+                              @Valid @ModelAttribute("card") Card card,
+                              BindingResult bindingResult, Model model){
+        if (!cardService.existsCard(card.getNumber())) {
             return "redirect:/addcard?error";
+        } else if(bindingResult.hasErrors()) {
+            return "add-card";
         }
-        if (num >= 1000 && num <=9999 && !cardService.existsCard(num)){
-            userService.addCard(userDetails.getUsername(), num, name);
-        }
-        else return "redirect:/addcard?error";
-        return "redirect:/profile";
+        userService.addCard(userDetails.getUsername(), card.getNumber(), card.getName());
+        return "redirect:profile";
     }
 }

@@ -23,19 +23,27 @@
         <h1 class="text-center">Оформить карту</h1>
         <div th:if="${param.error}">
             <p id="error">
-                Неверные данные!
+                Неверные данные или карта существует.
             </p>
         </div>
         <!-- Name input -->
         <div class="form-outline mb-13 container">
             <label class="form-label ml-10 text-center" for="name">Название карты: </label>
-            <input type="text" id="name" name="name" class="form-control" />
+            <span id="error" th:if="${#fields.hasErrors('name')}"
+                th:errors="*{name}">
+                Card name error
+            </span>
+            <input type="text" th:field="*{name}" class="form-control" />
         </div>
 
         <!-- Password input -->
         <div class="form-outline mb-13 container">
             <label class="form-label" for="number">Номер карты(4 цифры):</label>
-            <input type="text" id="number" name="number" class="form-control" />
+            <span id="error" th:if="${#fields.hasErrors('number')}"
+                th:errors="*{number}">
+                Card number error
+            </span>
+            <input type="number" th:field="*{number}" class="form-control" />
         </div>
 
         <!-- Submit button -->
