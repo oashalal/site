@@ -35,7 +35,7 @@ public class CardController {
     public String postAddCard(@AuthenticationPrincipal UserDetails userDetails, 
                               @Valid @ModelAttribute("card") Card card,
                               BindingResult bindingResult, Model model){
-        if (!cardService.existsCard(card.getNumber())) {
+        if (cardService.existsCard(card.getNumber())) {
             return "redirect:/addcard?error";
         } else if(bindingResult.hasErrors()) {
             return "add-card";
