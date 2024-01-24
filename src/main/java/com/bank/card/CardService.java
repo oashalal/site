@@ -26,11 +26,4 @@ public class CardService {
         User user = userService.getUser(username);
         return cardRepository.findByUser(user);
     }
-    
-    public Card addCard(String name, int number, User user) {
-        Card card = new Card(0d, number, name);
-        card.setUser(user);
-        cardRepository.save(card);
-        return card;
-    }
 }

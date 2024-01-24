@@ -16,7 +16,7 @@ public class UserService{
     private UserRepository userRepository;
     
     @Autowired
-    private CardService cardService;
+    private CardRepository cardRepository;
     
     public void addUser(String username, String password){
         if(!existsUser(username)){
@@ -32,7 +32,9 @@ public class UserService{
     public boolean addCard(String username, int cardNumber, String name){
         User user = getUser(username);
         if (user != null){
-            Card card = cardService.addCard(name, cardNumber, user);
+            Card card = new Card(0d, number, name);
+            card.setUser(user);
+            cardRepository.save(card);
             user.getCards().add(card);
             userRepository.save(user);
             return true;
