@@ -19,7 +19,7 @@
 </head>
 <body>
     <header th:insert="~{header :: header}"></header>
-    <form th:action="@{/addcard}" method="post">
+    <form th:object="${card}" th:action="@{/addcard}" method="post">
         <h1 class="text-center">Оформить карту</h1>
         <div th:if="${param.error}">
             <p id="error">
