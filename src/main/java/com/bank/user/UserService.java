@@ -29,7 +29,7 @@ public class UserService{
         return userRepository.existsByUsername(username);
     }
     
-    public boolean addCard(String username, int cardNumber, String name){
+    public boolean addCard(String username, int number, String name){
         User user = getUser(username);
         if (user != null){
             Card card = new Card(0d, number, name);
