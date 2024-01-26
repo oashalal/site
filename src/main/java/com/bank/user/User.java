@@ -1,11 +1,13 @@
 package com.bank.user;
 
-import jakarta.persistence.*;
 import lombok.Data;
 import com.bank.card.Card;
-import java.util.List;
-import java.util.ArrayList;
+import com.bank.role.Role;
+
+import java.util.*;
+
 import jakarta.validation.constraints.*;
+import jakarta.persistence.*;
 
 @Data
 @Table(name="USERS")
@@ -26,11 +28,23 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Card> cards;
     
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+            )
+    private Set<Role> roles = new HashSet<>();
+    
     public User() {}
     
     public User(String username, String password){
         this.username = username;
         this.password = password;
         this.cards = new ArrayList<>();
+    }
+    
+    public void addRole(Role role){
+        roles.add(role);
     }
 }

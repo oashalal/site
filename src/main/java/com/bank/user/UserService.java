@@ -2,6 +2,7 @@ package com.bank.user;
 
 import com.bank.user.*;
 import com.bank.card.*;
+import com.bank.role.*;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,28 @@ public class UserService implements UserDetailsService{
     private CardRepository cardRepository;
     
     @Autowired
+    private RoleRepository roleRepository;
+    
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    
+    private Role USER;
+    
+    public UserService(){
+        Role user = roleRepository.findByName("USER");
+        if (user.isPresent()) {
+            this.USER = user.get();
+        } else {
+            Role role = new Role("USER");
+            roleRepository.save(role);
+            this.USER = role;
+        }
+    }
     
     public void addUser(String username, String password){
         if(!existsUser(username)){
             User user = new User(username, passwordEncoder.encode(password));
+            user.addRole(USER);
             userRepository.save(user);
         }
     }
@@ -59,6 +77,6 @@ public class UserService implements UserDetailsService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
                    .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
+        return new MyUserDetails(user);
     }
 }
