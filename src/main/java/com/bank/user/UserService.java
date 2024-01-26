@@ -32,7 +32,7 @@ public class UserService implements UserDetailsService{
     private Role USER;
     
     public UserService(){
-        Role user = roleRepository.findByName("USER");
+        Optional<Role> user = roleRepository.findByName("USER");
         if (user.isPresent()) {
             this.USER = user.get();
         } else {

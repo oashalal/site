@@ -1,6 +1,7 @@
 package com.bank.user;
 
-import com.bank.user.*;
+import com.bank.user.User;
+import com.bank.role.Role;
 
 import java.util.*;
  
