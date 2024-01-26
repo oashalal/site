@@ -23,7 +23,6 @@ public class UserService implements UserDetailsService{
     @Autowired
     private CardRepository cardRepository;
     
-    @Autowired
     private RoleRepository roleRepository;
     
     @Autowired
@@ -31,7 +30,8 @@ public class UserService implements UserDetailsService{
     
     private Role USER;
     
-    public UserService(){
+    public UserService(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
         Optional<Role> user = roleRepository.findByName("USER");
         if (user.isPresent()) {
             this.USER = user.get();
